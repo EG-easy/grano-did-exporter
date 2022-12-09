@@ -1,0 +1,25 @@
+{
+  "name": "did-event-exporter",
+  "version": "0.0.0",
+  "description": "event exporter for grano did node",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EG-easy/did-evnet-exporter.git"
+  },
+  "keywords": [
+    "did"
+  ],
+  "author": "EG-easy",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/EG-easy/did-evnet-exporter/issues"
+  },
+  "homepage": "https://github.com/EG-easy/did-evnet-exporter#readme"
+}
