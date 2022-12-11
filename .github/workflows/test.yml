@@ -1,14 +1,13 @@
-name: UNIT test
+name: Node.js CI
 
 on:
   push:
     branches:
-      - dev
       - main
+      - dev
   pull_request:
     branches:
-      - dev
-      - main
+      - '**'
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -23,6 +22,9 @@ jobs:
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
           node-version: ${{ matrix.node-version }}
+          registry-url: https://npm.pkg.github.com
       - run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.TO_REPO_OF_GRANO_DID_CLIENT }}
       - run: npm run lint
-      - run: npm run test
+      - run: npm test
