@@ -1,0 +1,40 @@
+{
+  "name": "grano-did-app",
+  "version": "0.0.0",
+  "description": "applications for grano did node",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "export NODE_ENV=development; jest --forceExit --detectOpenHandles",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EG-easy/did-evnet-exporter.git"
+  },
+  "keywords": [
+    "did"
+  ],
+  "author": "EG-easy",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/EG-easy/grnao-did-app/issues"
+  },
+  "homepage": "https://github.com/EG-easy/grano-did-app#readme",
+  "devDependencies": {
+    "@types/jest": "^29.2.4",
+    "eslint": "^8.29.0",
+    "eslint-plugin-jsdoc": "^39.6.4",
+    "eslint-plugin-openreachtech": "^0.1.0",
+    "jest": "^29.3.1",
+    "sequelize-cli": "^6.5.2",
+    "sequelize-mig": "^3.1.3"
+  },
+  "dependencies": {
+    "mariadb": "^3.0.2",
+    "sequelize": "^6.26.0",
+    "sqlite3": "^5.1.2"
+  }
+}
