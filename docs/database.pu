@@ -62,7 +62,7 @@ entity controllers {
   id: INTEGER <<PK>>
   --
   method_specific_string_id: BIGINT <<index>>
-  version_id: BIGINT <<index>>
+  version: TINYINT <<index>>
   address: VARCHAR(191)
   created_at: DATETIME
   updated_at: DATETIME
@@ -72,7 +72,7 @@ entity attributes {
   id: BIGINT <<PK>>
   --
   method_specific_string_id: BIGINT <<index>>
-  version_id: BIGINT <<index>>
+  version: TINYINT <<index>>
   key: TEXT
   value: TEXT
   created_at: DATETIME
