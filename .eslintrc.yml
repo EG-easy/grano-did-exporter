@@ -1,0 +1,203 @@
+env:
+  commonjs: true
+  es2022: true
+  jest: true
+  node: true
+extends:
+  - eslint:recommended
+parserOptions:
+  ecmaVersion: latest
+plugins:
+  - jsdoc
+  - openreachtech
+ignorePatterns:
+  - trials
+rules:
+  array-bracket-spacing: error
+  arrow-spacing:
+    - error
+    - after: true
+      before: true
+  brace-style: error
+  comma-dangle: off
+  comma-spacing: error
+  comma-style:
+    - error
+    - last
+  computed-property-spacing:
+    - error
+    - never
+  curly:
+    - error
+    - all
+  eol-last:
+    - error
+    - always
+  func-call-spacing:
+    - error
+    - never
+  generator-star-spacing:
+    - error
+    - before: true
+      after: false
+  indent:
+    - error
+    - 2
+    - CallExpression:
+        arguments: 1
+      MemberExpression: 1
+      ObjectExpression: 1
+  jsdoc/check-alignment: error
+  jsdoc/newline-after-description:
+    - error
+    - always
+  jsdoc/require-asterisk-prefix: error
+  jsdoc/require-description: error
+  jsdoc/require-hyphen-before-param-description:
+    - error
+    - always
+  jsdoc/require-param: error
+  jsdoc/require-param-name: error
+  jsdoc/require-param-type: error
+  jsdoc/require-returns: error
+  jsdoc/require-returns-type: error
+  jsdoc/require-throws: error
+  jsdoc/require-yields: error
+  key-spacing: error
+  keyword-spacing:
+    - error
+    - before: true
+      after: true
+  lines-around-comment:
+    - error
+    - beforeBlockComment: true
+      allowArrayStart: true
+      allowBlockStart: true
+      allowClassStart: true
+      allowObjectStart: true
+  linebreak-style:
+    - error
+    - unix
+  lines-between-class-members:
+    - error
+    - always
+  multiline-ternary:
+    - error
+    - always
+  newline-per-chained-call: error
+  no-await-in-loop: error
+  no-console: error
+  no-extra-semi: error
+  no-multi-spaces: error
+  no-multiple-empty-lines:
+    - error
+    - max: 1
+  no-negated-condition: error
+  no-nested-ternary: error
+  no-param-reassign: error
+  no-restricted-syntax:
+    - error
+    - selector: 'CallExpression[callee.callee.object.name=/it|test/][callee.callee.property.name="each"] IfStatement'
+      message: 'If statement in it.each()/test.each() is not allowed.'
+    - selector: 'CallExpression[callee.name=/it|test/] IfStatement'
+      message: 'If statement in it()/test() is not allowed.'
+    - selector: 'CallExpression[callee.property.name="forEach"]'
+      message: 'Object-Oriented Programming does not require `#forEach()`.'
+    - selector: 'DoWhileStatement'
+      message: 'Object-Oriented Programming does not require do..while statement.'
+    - selector: 'ForInStatement'
+      message: 'for..in loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{keys, values, entries}, and iterate over the resulting array.'
+    - selector: 'ForOfStatement'
+      message: 'for..of loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{values, entries}, and iterate over the resulting array.'
+    - selector: 'ForStatement'
+      message: 'Object-Oriented Programming does not require `for` statement.'
+    - selector: 'Identifier[name=/.+(Data|Info|Item|List|Manager)$/]'
+      message: 'Not allowed to use "Data", "Info", "Item", "List", and "Manager" as suffix of identifier.'
+    - selector: 'IfStatement IfStatement'
+      message: 'Nested if statements are prohibited, including "else if".'
+    - selector: 'IfStatement>.alternate[type="IfStatement"]'
+      message: '"else-if" syntax is prohibited.'
+    - selector: 'LabeledStatement'
+      message: 'Labeled statement is not allowed.'
+    - selector: 'SwitchStatement'
+      message: 'Object-Oriented Programming does not require `switch` statement.'
+    - selector: 'VariableDeclaration[kind="let"]'
+      message: 'Object-Oriented Programming does not require `let` variable declaration.'
+    - selector: 'WhileStatement'
+      message: 'Object-Oriented Programming does not require `while` statement.'
+  no-return-await: error
+  no-tabs: error
+  no-trailing-spaces: error
+  no-unexpected-multiline: error
+  no-unneeded-ternary:
+    - error
+    - defaultAssignment: false
+  no-unreachable: error
+  no-unused-vars:
+    - error
+    - args: none
+  no-useless-constructor: error
+  no-var: error
+  object-curly-spacing:
+    - error
+    - always
+  one-var:
+    - error
+    - never
+  openreachtech/empty-line-after-super: error
+  openreachtech/indent-in-infix-expression: error
+  openreachtech/newline-per-parameter: error
+  openreachtech/no-if-in-oneline: error
+  openreachtech/no-unexpected-multiline: error
+  operator-linebreak:
+    - error
+    - before
+    - overrides:
+        =: after
+  padded-blocks:
+    - error
+    - never
+  padding-line-between-statements:
+    - error
+    - blankLine: always
+      prev: directive
+      next: "*"
+    - blankLine: always
+      prev: "*"
+      next:
+        - break
+        - continue
+        - return
+        - throw
+  quote-props:
+    - error
+    - as-needed
+  quotes:
+    - error
+    - single
+  rest-spread-spacing: error
+  semi:
+    - error
+    - never
+  semi-spacing:
+    - error
+    - before: false
+      after: true
+  semi-style:
+    - error
+    - first
+  space-before-blocks: error
+  space-before-function-paren: error
+  space-infix-ops: error
+  space-unary-ops: error
+  spaced-comment: error
+  strict: error
+  symbol-description: error
+  template-curly-spacing:
+    - error
+    - never
+  template-tag-spacing: error
+  unicode-bom: error
+  yield-star-spacing:
+    - error
+    - after
