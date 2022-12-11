@@ -21,5 +21,12 @@
   "bugs": {
     "url": "https://github.com/EG-easy/did-evnet-exporter/issues"
   },
-  "homepage": "https://github.com/EG-easy/did-evnet-exporter#readme"
+  "homepage": "https://github.com/EG-easy/did-evnet-exporter#readme",
+  "devDependencies": {
+    "@types/jest": "^29.2.4",
+    "eslint": "^8.29.0",
+    "eslint-plugin-jsdoc": "^39.6.4",
+    "eslint-plugin-openreachtech": "^0.1.0",
+    "jest": "^29.3.1"
+  }
 }
