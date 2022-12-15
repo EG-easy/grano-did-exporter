@@ -1,3 +1,5 @@
 #### environment
 .env
 node_modules
+
+sequelize/storage
