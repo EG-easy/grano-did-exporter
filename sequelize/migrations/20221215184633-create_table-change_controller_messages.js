@@ -31,6 +31,11 @@ module.exports = {
         field: COLUMN_NAME.IDENTIFIER_ID,
         allowNull: false,
       },
+      newController: {
+        type: Sequelize.STRING(191),
+        field: COLUMN_NAME.NEW_CONTROLLER,
+        allowNull: false,
+      },
       createdAt: {
         type: Sequelize.DATE(3),
         field: 'created_at',

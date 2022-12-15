@@ -33,9 +33,9 @@ module.exports = {
         field: COLUMN_NAME.IDENTIFIER_ID,
         allowNull: false,
       },
-      key: {
+      name: {
         type: Sequelize.TEXT,
-        field: COLUMN_NAME.KEY,
+        field: COLUMN_NAME.NAME,
         allowNull: false,
       },
       value: {
