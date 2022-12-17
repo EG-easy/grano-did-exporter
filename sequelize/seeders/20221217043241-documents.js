@@ -6,8 +6,8 @@ const appendDatetimeFields = require('./../utils/appendDatetimeFields')
 const TABLE_NAME = 'documents'
 const seeders = [
   { id: 1, identifier_id: 1, version: 1, content: '{"service":"github"}' },
-  { id: 1, identifier_id: 1, version: 2, content: '{"service":["github","twitter"]}' },
-  { id: 1, identifier_id: 1, version: 3, content: '{"service":"twitter"}' },
+  { id: 2, identifier_id: 1, version: 2, content: '{"service":["github","twitter"]}' },
+  { id: 3, identifier_id: 1, version: 3, content: '{"service":"twitter"}' },
 ]
 
 /**
