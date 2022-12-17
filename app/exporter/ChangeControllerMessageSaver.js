@@ -8,10 +8,10 @@ const ChangeControllerMessage = require('../../sequelize/models/ChangeController
  */
 class ChangeControllerMessageSaver {
   /**
-   * save ipn
+   * batchCreateChangeControllerMessages
    *
    * @param {Array<ChangeControllerMessageParam>} param
-   * @param {import('sequelize').QueryOptions} options
+   * @param {import('sequelize').BulkCreateOptions} options
    * @return {Promise<Array<ChangeControllerMessage>>}
    */
   async batchCreateChangeControllerMessages (
@@ -32,7 +32,7 @@ module.exports = ChangeControllerMessageSaver
 /**
  * @typedef {{
  * transactionId: Number,
- * identifierId: Number,
+ * identifier: String,
  * newController: String,
  * }} ChangeControllerMessageParam
  */

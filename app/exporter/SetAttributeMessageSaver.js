@@ -8,10 +8,10 @@ const SetAttributeMessage = require('../../sequelize/models/SetAttributeMessage'
  */
 class SetAttributeMessageSaver {
   /**
-   * save ipn
+   * batchCreateSetAttributeMessages
    *
    * @param {Array<SetAttributeMessageParam>} param
-   * @param {import('sequelize').QueryOptions} options
+   * @param {import('sequelize').BulkCreateOptions} options
    * @return {Promise<Array<SetAttributeMessage>>}
    */
   async batchCreateSetAttributeMessages (
@@ -32,7 +32,7 @@ module.exports = SetAttributeMessageSaver
 /**
  * @typedef {{
  * transactionId: Number,
- * identifierId: Number,
+ * identifier: String,
  * name: String,
  * value: String,
  * validity: Number,

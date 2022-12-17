@@ -8,10 +8,10 @@ const RevokeAttributeMessage = require('../../sequelize/models/RevokeAttributeMe
  */
 class RevokeAttributeMessageSaver {
   /**
-   * save ipn
+   * batchCreateRevokeAttributeMessages
    *
    * @param {Array<RevokeAttributeMessageParam>} param
-   * @param {import('sequelize').QueryOptions} options
+   * @param {import('sequelize').BulkCreateOptions} options
    * @return {Promise<Array<RevokeAttributeMessage>>}
    */
   async batchCreateRevokeAttributeMessages (
@@ -32,7 +32,7 @@ module.exports = RevokeAttributeMessageSaver
 /**
  * @typedef {{
  * transactionId: Number,
- * identifierId: Number,
+ * identifier: String,
  * name: String,
  * value: String,
  * }} RevokeAttributeMessageParam
