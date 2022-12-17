@@ -49,6 +49,12 @@ class Block extends BaseModel {
   /** @inheritdoc */
   static defineScopes (Op) {
     super.defineScopes?.(Op)
+
+    this.addScope('+Transaction', () => {
+      return {
+        include: Transaction
+      }
+    })
   }
 }
 

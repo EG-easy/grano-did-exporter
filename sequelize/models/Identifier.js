@@ -54,6 +54,15 @@ class Identifier extends BaseModel {
   /** @inheritdoc */
   static defineScopes (Op) {
     super.defineScopes?.(Op)
+
+    this.addScope('+Document+Controller', () => {
+      return {
+        include: [
+          Document,
+          Controller,
+        ]
+      }
+    })
   }
 }
 

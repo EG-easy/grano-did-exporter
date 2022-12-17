@@ -58,6 +58,16 @@ class Transaction extends BaseModel {
   /** @inheritdoc */
   static defineScopes (Op) {
     super.defineScopes?.(Op)
+
+    this.addScope('+Message', () => {
+      return {
+        include: [
+          ChangeControllerMessage,
+          SetAttributeMessage,
+          RevokeAttributeMessage,
+        ]
+      }
+    })
   }
 }
 
