@@ -5,7 +5,7 @@ const appendDatetimeFields = require('./../utils/appendDatetimeFields')
 
 const TABLE_NAME = 'revoke_attribute_messages'
 const seeders = [
-  { id: 1, transaction_id: 1, identifier_id: 1, name: 'service', value: 'github' },
+  { id: 1, transaction_id: 3, identifier_id: 1, name: 'service', value: 'github' },
 ]
 
 /**

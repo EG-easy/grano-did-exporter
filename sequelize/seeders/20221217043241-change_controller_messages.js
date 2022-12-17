@@ -5,7 +5,7 @@ const appendDatetimeFields = require('./../utils/appendDatetimeFields')
 
 const TABLE_NAME = 'change_controller_messages'
 const seeders = [
-  { id: 1, transaction_id: 1, identifier_id: 1, new_controller: 'grano1m2pz9nj72lj2yxnpcmxqwfwk50v35gq7wd399m' },
+  { id: 1, transaction_id: 4, identifier_id: 1, new_controller: 'grano1m2pz9nj72lj2yxnpcmxqwfwk50v35gq7wd399m' },
 ]
 
 /**
