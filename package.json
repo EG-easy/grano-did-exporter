@@ -9,7 +9,8 @@
   "scripts": {
     "test": "export NODE_ENV=development; jest --forceExit --detectOpenHandles",
     "lint": "eslint .",
-    "db:setup": "sequelize-cli db:migrate"
+    "db:setup": "npm run db:drop; sequelize-cli db:migrate; sequelize-cli db:seed:all --seeders-path=sequelize/seeders",
+    "db:drop": "rm sequelize/storage/*.sqlite3"
   },
   "repository": {
     "type": "git",
