@@ -3,6 +3,10 @@
 
 const BaseModel = require('./BaseModel')
 
+const ChangeControllerMessage = require('./ChangeControllerMessage')
+const SetAttributeMessage = require('./SetAttributeMessage')
+const RevokeAttributeMessage = require('./RevokeAttributeMessage')
+
 /**
  * @extends BaseModel
  */
@@ -46,6 +50,9 @@ class Transaction extends BaseModel {
   /** @inheritdoc */
   static associate () {
     super.associate?.()
+    this.hasMany(ChangeControllerMessage)
+    this.hasMany(SetAttributeMessage)
+    this.hasMany(RevokeAttributeMessage)
   }
 
   /** @inheritdoc */
