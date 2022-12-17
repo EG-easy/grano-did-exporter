@@ -11,7 +11,7 @@ class BlockSaver {
    * save ipn
    *
    * @param {BlockParam} param
-   * @param {import('sequelize').QueryOptions} options
+   * @param {import('sequelize').CreateOptions} options
    * @return {Promise<Block>}
    */
   async saveBlock (

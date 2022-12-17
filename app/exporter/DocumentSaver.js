@@ -11,7 +11,7 @@ class DocumentSaver {
    * save ipn
    *
    * @param {Array<DocumentParam>} param
-   * @param {import('sequelize').QueryOptions} options
+   * @param {import('sequelize').BulkCreateOptions} options
    * @return {Promise<Array<Document>>}
    */
   async batchCreateDocuments (
