@@ -42,7 +42,7 @@ entity set_attribute_messages {
   --
   transaction_id: BIGINT <<index>>
   identifier_id: BIGINT <<index>>
-  key: TEXT
+  name: TEXT
   value: TEXT
   validity: BIGINT
   created_at: DATETIME
