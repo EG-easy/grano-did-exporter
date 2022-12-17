@@ -2,6 +2,7 @@
 'use strict'
 
 const BaseModel = require('./BaseModel')
+const Transaction = require('./Transaction')
 
 /**
  * @extends BaseModel
@@ -42,6 +43,7 @@ class Block extends BaseModel {
   /** @inheritdoc */
   static associate () {
     super.associate?.()
+    this.hasMany(Transaction)
   }
 
   /** @inheritdoc */
