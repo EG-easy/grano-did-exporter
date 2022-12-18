@@ -2,7 +2,7 @@
 
 const TABLE_NAME = 'documents'
 const COLUMN_NAME = {
-  IDENTIFIER_ID: 'identifier_id',
+  IDENTIFIER: 'identifier',
   VERSION: 'version',
   CONTENT: 'content',
 }
@@ -21,9 +21,9 @@ module.exports = {
         autoInclement: true,
         primaryKey: true,
       },
-      identifierId: {
-        type: Sequelize.BIGINT,
-        field: COLUMN_NAME.IDENTIFIER_ID,
+      identifier: {
+        type: Sequelize.STRING(191),
+        field: COLUMN_NAME.IDENTIFIER,
         allowNull: false,
       },
       version: {
@@ -50,11 +50,11 @@ module.exports = {
 
     await Promise.all([
       queryInterface.addIndex(TABLE_NAME, [
-        COLUMN_NAME.IDENTIFIER_ID,
+        COLUMN_NAME.IDENTIFIER,
       ], {
         name: [
           TABLE_NAME,
-          COLUMN_NAME.IDENTIFIER_ID,
+          COLUMN_NAME.IDENTIFIER,
           'index',
         ].join('_'),
       })
