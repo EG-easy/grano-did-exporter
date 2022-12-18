@@ -5,8 +5,8 @@ const appendDatetimeFields = require('./../utils/appendDatetimeFields')
 
 const TABLE_NAME = 'set_attribute_messages'
 const seeders = [
-  { id: 1, transaction_id: 1, identifier_id: 1, name: 'service', value: 'github', validity: 1671253822 },
-  { id: 2, transaction_id: 2, identifier_id: 1, name: 'service', value: 'twitter', validity: 1671253827 },
+  { id: 1, transaction_id: 1, identifier: 'grano14fsulwpdj9wmjchsjzuze0k37qvw7n7am3reev', name: 'service', value: 'github', validity: 1671253822 },
+  { id: 2, transaction_id: 2, identifier: 'grano14fsulwpdj9wmjchsjzuze0k37qvw7n7am3reev', name: 'service', value: 'twitter', validity: 1671253827 },
 ]
 
 /**
