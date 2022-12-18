@@ -15,9 +15,6 @@ const IdentifierSaver = require('./IdentifierSaver')
 const Block = require('../../sequelize/models/Block')
 
 const IdentifiersExtractor = require('./IdentifiersExtractor')
-const ChangeControllerMessagesExtractor = require('./ChangeControllerMessagesExtractor')
-const SetAttributeMessagesExtractor = require('./SetAttributeMessagesExtractor')
-const RevokeAttributeMessagesExtractor = require('./RevokeAttributeMessagesExtractor')
 
 /**
  * Exporter.
@@ -33,20 +30,12 @@ class Exporter {
     blockSaver = new BlockSaver(),
     transactionSaver = new TransactionSaver(),
     identifierSaver = new IdentifierSaver(),
-    identifiersExtractor = IdentifiersExtractor.create(),
-    changeControllerMessagesExtractor = ChangeControllerMessagesExtractor.create(),
-    setAttributeMessagesExtractor = SetAttributeMessagesExtractor.create(),
-    revokeAttributeMessagesExtractor = RevokeAttributeMessagesExtractor.create(),
     contractAddress = process.env.CONTRACT_ADDRESS,
   } = {}) {
     this.granoDidClient = granoDidClient
     this.blockSaver = blockSaver
     this.transactionSaver = transactionSaver
     this.identifierSaver = identifierSaver
-    this.identifiersExtractor = identifiersExtractor
-    this.changeControllerMessagesExtractor = changeControllerMessagesExtractor
-    this.setAttributeMessagesExtractor = setAttributeMessagesExtractor
-    this.revokeAttributeMessagesExtractor = revokeAttributeMessagesExtractor
     this.contractAddress = contractAddress
   }
 
@@ -80,9 +69,12 @@ class Exporter {
 
         const targetTransactions = this.findTargetTransactions(savedTransactions, this.contractAddress)
 
+        if (targetTransactions.length === 0) {
+          return
+        }
+
         const extractIdentifiers = IdentifiersExtractor.create({ transactions: targetTransactions }).extractIdentifiers()
         const savedIdentifiers = await this.identifierSaver.batchCreateIdentifiers(extractIdentifiers, { transaction: t })
-
       })
     } catch (error) {
       throw new Error(`rollbacked: ${error}`)
@@ -199,10 +191,6 @@ module.exports = Exporter
  *   blockSaver?: BlockSaver
  *   transactionSaver?: TransactionSaver
  *   identifierSaver?: IdentifierSaver
- *   identifiersExtractor?: IdentifiersExtractor
- *   changeControllerMessagesExtractor?: ChangeControllerMessagesExtractor
- *   setAttributeMessagesExtractor?: SetAttributeMessagesExtractor
- *   revokeAttributeMessagesExtractor?: RevokeAttributeMessagesExtractor
  *   contractAddress?: String
  * }} ExporterParams
  */
