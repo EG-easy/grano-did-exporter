@@ -11,10 +11,12 @@ const db = require('../../sequelize/models')
 const BlockSaver = require('./BlockSaver')
 const TransactionSaver = require('./TransactionSaver')
 const IdentifierSaver = require('./IdentifierSaver')
+const ChangeControllerMessageSaver = require('./ChangeControllerMessageSaver')
 
 const Block = require('../../sequelize/models/Block')
 
 const IdentifiersExtractor = require('./IdentifiersExtractor')
+const ChangeControllerMessagesExtractor = require('./ChangeControllerMessagesExtractor')
 
 /**
  * Exporter.
@@ -30,12 +32,14 @@ class Exporter {
     blockSaver = new BlockSaver(),
     transactionSaver = new TransactionSaver(),
     identifierSaver = new IdentifierSaver(),
+    changeControllerMessageSaver = new ChangeControllerMessageSaver(),
     contractAddress = process.env.CONTRACT_ADDRESS,
   } = {}) {
     this.granoDidClient = granoDidClient
     this.blockSaver = blockSaver
     this.transactionSaver = transactionSaver
     this.identifierSaver = identifierSaver
+    this.changeControllerMessageSaver = changeControllerMessageSaver
     this.contractAddress = contractAddress
   }
 
@@ -55,10 +59,11 @@ class Exporter {
    * @param {Number} height
    */
   async sync (height) {
+    // fetch from the blockchain
     const rawBlock = await this.fetchBlockbyBlockHeight(height)
-
     const rawTransactions = await this.fetchTransactionsByHeight(height)
 
+    // save in the database
     try {
       Block.sequelize.transaction(async t => {
         const extractBlock = this.extractBlock(rawBlock)
@@ -69,12 +74,15 @@ class Exporter {
 
         const targetTransactions = this.findTargetTransactions(savedTransactions, this.contractAddress)
 
+        // return if no grano-did-contract txs exist
         if (targetTransactions.length === 0) {
           return
         }
 
-        const extractIdentifiers = IdentifiersExtractor.create({ transactions: targetTransactions }).extractIdentifiers()
-        const savedIdentifiers = await this.identifierSaver.batchCreateIdentifiers(extractIdentifiers, { transaction: t })
+        const extractChangeControllerMessages = ChangeControllerMessagesExtractor.create({ transactions: targetTransactions }).extractChangeControllerMessages()
+        const savedChangeControllerMessages = this.changeControllerMessageSaver.batchCreateChangeControllerMessages(extractChangeControllerMessages, { transaction: t })
+
+        console.log(extractChangeControllerMessages)
       })
     } catch (error) {
       throw new Error(`rollbacked: ${error}`)
@@ -191,6 +199,7 @@ module.exports = Exporter
  *   blockSaver?: BlockSaver
  *   transactionSaver?: TransactionSaver
  *   identifierSaver?: IdentifierSaver
+ *   changeControllerMessageSaver?: ChangeControllerMessageSaver
  *   contractAddress?: String
  * }} ExporterParams
  */
