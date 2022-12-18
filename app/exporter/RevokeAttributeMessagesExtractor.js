@@ -14,10 +14,8 @@ class RevokeAttributeMessagesExtractor {
    */
   constructor ({
     transactions,
-    contractAddress,
   } = {}) {
     this.transactions = transactions
-    this.contractAddress = contractAddress
   }
 
   /**
@@ -36,20 +34,39 @@ class RevokeAttributeMessagesExtractor {
    * @returns {Array<import('./RevokeAttributeMessageSaver').RevokeAttributeMessageParam>}
    */
   extractRevokeAttributeMessages () {
-    return this.transactions.map( transaction => {
-      const log = logs.parseRawLog(transaction.rawLog)
-      const contractAddressObject = logs.findAttribute(log, 'wasm', '_contract_address')
-      if (this.contractAddress === contractAddressObject.value) {
-        const identifierObject = logs.findAttribute(log, 'wasm', 'identifier')
-        const nameObject = logs.findAttribute(log, 'wasm', 'name')
-        const valueObject = logs.findAttribute(log, 'wasm', 'value')
+    const targetTransactions = this._findTargetTransactions()
 
-        return {
-          transactionId: transaction.id,
-          identifier: identifierObject.value,
-          name: nameObject.value,
-          value: valueObject.value,
-        }
+    return targetTransactions.map( transaction => {
+      const log = logs.parseRawLog(transaction.rawLog)
+      const identifierObject = logs.findAttribute(log, 'wasm', 'identifier')
+      const nameObject = logs.findAttribute(log, 'wasm', 'name')
+      const valueObject = logs.findAttribute(log, 'wasm', 'value')
+
+      return {
+        transactionId: transaction.id,
+        identifier: identifierObject.value,
+        name: nameObject.value,
+        value: valueObject.value,
+      }
+    })
+  }
+
+  /**
+   * findTargetTransactions.
+   *
+   * @returns {Array<import('../../sequelize/models/Transaction')>} transactions
+   */
+  _findTargetTransactions () {
+    return this.transactions.filter( transaction => {
+      try {
+        const log = logs.parseRawLog(transaction.rawLog)
+        logs.findAttribute(log, 'wasm', 'identifier')
+        logs.findAttribute(log, 'wasm', 'name')
+        logs.findAttribute(log, 'wasm', 'value')
+
+        return transaction
+      } catch (error) {
+        console.log('parse err: ', error)
       }
     })
   }
@@ -59,15 +76,6 @@ module.exports = RevokeAttributeMessagesExtractor
 
 /**
  * @typedef {{
- * transactions?: Array<transaction>
- * contractAddress?: String
+ * transactions?: Array<import('../../sequelize/models/Transaction')>
  * }} RevokeAttributeMessagesExtractorParams
- */
-
-/**
- * @typedef {{
- * id: Number
- * hash: String
- * rawLog: String
- * }} transaction
  */

@@ -14,10 +14,8 @@ class ChangeControllerMessagesExtractor {
    */
   constructor ({
     transactions,
-    contractAddress,
   } = {}) {
     this.transactions = transactions
-    this.contractAddress = contractAddress
   }
 
   /**
@@ -36,18 +34,36 @@ class ChangeControllerMessagesExtractor {
    * @returns {Array<import('./ChangeControllerMessageSaver').ChangeControllerMessageParam>}
    */
   extractChangeControllerMessages () {
-    return this.transactions.map( transaction => {
-      const log = logs.parseRawLog(transaction.rawLog)
-      const contractAddressObject = logs.findAttribute(log, 'wasm', '_contract_address')
-      if (this.contractAddress === contractAddressObject.value) {
-        const identifierObject = logs.findAttribute(log, 'wasm', 'identifier')
-        const newControllerObject = logs.findAttribute(log, 'wasm', 'controller')
+    const targetTransactions = this._findTargetTransactions()
 
-        return {
-          transactionId: transaction.id,
-          identifier: identifierObject.value,
-          newController: newControllerObject.value,
-        }
+    return targetTransactions.map( transaction => {
+      const log = logs.parseRawLog(transaction.rawLog)
+      const identifierObject = logs.findAttribute(log, 'wasm', 'identifier')
+      const newControllerObject = logs.findAttribute(log, 'wasm', 'controller')
+
+      return {
+        transactionId: transaction.id,
+        identifier: identifierObject.value,
+        newController: newControllerObject.value,
+      }
+    })
+  }
+
+  /**
+   * findTargetTransactions.
+   *
+   * @returns {Array<import('../../sequelize/models/Transaction')>} transactions
+   */
+  _findTargetTransactions () {
+    return this.transactions.filter( transaction => {
+      try {
+        const log = logs.parseRawLog(transaction.rawLog)
+        logs.findAttribute(log, 'wasm', 'identifier')
+        logs.findAttribute(log, 'wasm', 'controller')
+
+        return transaction
+      } catch (error) {
+        console.log('parse err: ', error)
       }
     })
   }
@@ -57,15 +73,6 @@ module.exports = ChangeControllerMessagesExtractor
 
 /**
  * @typedef {{
- * transactions?: Array<transaction>
- * contractAddress?: String
+ * transactions?: Array<import('../../sequelize/models/Transaction')>
  * }} ChangeControllerMessagesExtractorParams
- */
-
-/**
- * @typedef {{
- * id: Number
- * hash: String
- * rawLog: String
- * }} transaction
  */

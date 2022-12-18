@@ -14,10 +14,8 @@ class SetAttributeMessagesExtractor {
    */
   constructor ({
     transactions,
-    contractAddress,
   } = {}) {
     this.transactions = transactions
-    this.contractAddress = contractAddress
   }
 
   /**
@@ -36,22 +34,42 @@ class SetAttributeMessagesExtractor {
    * @returns {Array<import('./SetAttributeMessageSaver').SetAttributeMessageParam>}
    */
   extractSetAttributeMessages () {
-    return this.transactions.map( transaction => {
-      const log = logs.parseRawLog(transaction.rawLog)
-      const contractAddressObject = logs.findAttribute(log, 'wasm', '_contract_address')
-      if (this.contractAddress === contractAddressObject.value) {
-        const identifierObject = logs.findAttribute(log, 'wasm', 'identifier')
-        const nameObject = logs.findAttribute(log, 'wasm', 'name')
-        const valueObject = logs.findAttribute(log, 'wasm', 'value')
-        const validToObject = logs.findAttribute(log, 'wasm', 'validTo')
+    const targetTransactions = this._findTargetTransactions()
 
-        return {
-          transactionId: transaction.id,
-          identifier: identifierObject.value,
-          name: nameObject.value,
-          value: valueObject.value,
-          validity: Number(validToObject.value),
-        }
+    return targetTransactions.map( transaction => {
+      const log = logs.parseRawLog(transaction.rawLog)
+      const identifierObject = logs.findAttribute(log, 'wasm', 'identifier')
+      const nameObject = logs.findAttribute(log, 'wasm', 'name')
+      const valueObject = logs.findAttribute(log, 'wasm', 'value')
+      const validToObject = logs.findAttribute(log, 'wasm', 'validTo')
+
+      return {
+        transactionId: transaction.id,
+        identifier: identifierObject.value,
+        name: nameObject.value,
+        value: valueObject.value,
+        validity: Number(validToObject.value),
+      }
+    })
+  }
+
+  /**
+   * findTargetTransactions.
+   *
+   * @returns {Array<import('../../sequelize/models/Transaction')>} transactions
+   */
+  _findTargetTransactions () {
+    return this.transactions.filter( transaction => {
+      try {
+        const log = logs.parseRawLog(transaction.rawLog)
+        logs.findAttribute(log, 'wasm', 'identifier')
+        logs.findAttribute(log, 'wasm', 'name')
+        logs.findAttribute(log, 'wasm', 'value')
+        logs.findAttribute(log, 'wasm', 'validTo')
+
+        return transaction
+      } catch (error) {
+        console.log('parse err: ', error)
       }
     })
   }
@@ -61,15 +79,7 @@ module.exports = SetAttributeMessagesExtractor
 
 /**
  * @typedef {{
- * transactions?: Array<transaction>
- * contractAddress?: String
+ * transactions?: Array<import('../../sequelize/models/Transaction')>
  * }} SetAttributeMessagesExtractorParams
  */
 
-/**
- * @typedef {{
- * id: Number
- * hash: String
- * rawLog: String
- * }} transaction
- */
