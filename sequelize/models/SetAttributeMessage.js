@@ -25,8 +25,8 @@ class SetAttributeMessage extends BaseModel {
         type: DataTypes.BIGINT,
         allowNull: false,
       },
-      identifierId: {
-        type: DataTypes.BIGINT,
+      identifier: {
+        type: DataTypes.STRING(191),
         allowNull: false,
       },
       name: {

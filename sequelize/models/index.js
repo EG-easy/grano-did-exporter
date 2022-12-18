@@ -6,7 +6,6 @@ const Sequelize = require('sequelize')
 const models = [
   require('./Block'),
   require('./Transaction'),
-  require('./Identifier'),
   require('./ChangeControllerMessage'),
   require('./SetAttributeMessage'),
   require('./RevokeAttributeMessage'),
