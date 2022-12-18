@@ -19,9 +19,7 @@ class RevokeAttributeMessageSaver {
     options
   ) {
     return RevokeAttributeMessage.bulkCreate(
-      {
-        ...param,
-      },
+      param,
       options
     )
   }

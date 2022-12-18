@@ -19,9 +19,7 @@ class TransactionSaver {
     options
   ) {
     return Transaction.bulkCreate(
-      {
-        ...param,
-      },
+      param,
       options
     )
   }

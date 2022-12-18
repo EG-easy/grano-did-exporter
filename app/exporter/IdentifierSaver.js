@@ -19,9 +19,7 @@ class IdentifierSaver {
     options
   ) {
     return Identifier.bulkCreate(
-      {
-        ...param,
-      },
+      param,
       options
     )
   }

@@ -19,9 +19,7 @@ class SetAttributeMessageSaver {
     options
   ) {
     return SetAttributeMessage.bulkCreate(
-      {
-        ...param,
-      },
+      param,
       options
     )
   }

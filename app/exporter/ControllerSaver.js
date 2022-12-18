@@ -19,9 +19,7 @@ class ControllerSaver {
     options
   ) {
     return Controller.bulkCreate(
-      {
-        ...param,
-      },
+      param,
       options
     )
   }

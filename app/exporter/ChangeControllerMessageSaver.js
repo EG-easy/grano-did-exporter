@@ -19,9 +19,7 @@ class ChangeControllerMessageSaver {
     options
   ) {
     return ChangeControllerMessage.bulkCreate(
-      {
-        ...param,
-      },
+      param,
       options
     )
   }
