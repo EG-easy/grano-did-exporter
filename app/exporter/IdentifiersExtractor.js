@@ -54,15 +54,8 @@ module.exports = IdentifiersExtractor
 
 /**
  * @typedef {{
- * transactions?: Array<transaction>
+ * transactions?: Array<import('../../sequelize/models/Transaction')>
  * contractAddress?: String
  * }} IdentifiersExtractorParams
  */
 
-/**
- * @typedef {{
- * id: Number
- * hash: String
- * rawLog: String
- * }} transaction
- */
