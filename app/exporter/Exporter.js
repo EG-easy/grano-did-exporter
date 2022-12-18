@@ -6,6 +6,8 @@ require('dotenv').config()
 const { logs } = require('@cosmjs/stargate')
 const { GranoDidClient } = require('@eg-easy/grano-did-client')
 
+const db = require('../../sequelize/models')
+
 const BlockSaver = require('./BlockSaver')
 const TransactionSaver = require('./TransactionSaver')
 const IdentifierSaver = require('./IdentifierSaver')
@@ -65,6 +67,7 @@ class Exporter {
    */
   async sync (height) {
     const rawBlock = await this.fetchBlockbyBlockHeight(height)
+
     const rawTransactions = await this.fetchTransactionsByHeight(height)
 
     try {
@@ -80,7 +83,6 @@ class Exporter {
         const extractIdentifiers = IdentifiersExtractor.create({ transactions: targetTransactions }).extractIdentifiers()
         const savedIdentifiers = await this.identifierSaver.batchCreateIdentifiers(extractIdentifiers, { transaction: t })
 
-        await t.commit()
       })
     } catch (error) {
       throw new Error(`rollbacked: ${error}`)
@@ -175,11 +177,15 @@ class Exporter {
     transactions,
     contractAddress
   ) {
-    return transactions.map( transaction => {
-      const log = logs.parseRawLog(transaction.rawLog)
-      const contractAddressObject = logs.findAttribute(log, 'wasm', '_contract_address')
-      if (contractAddress === contractAddressObject.value) {
-        return transaction
+    return transactions.filter( transaction => {
+      try {
+        const log = logs.parseRawLog(transaction.rawLog)
+        const contractAddressObject = logs.findAttribute(log, 'wasm', '_contract_address')
+        if (contractAddress === contractAddressObject.value) {
+          return transaction
+        }
+      } catch (error) {
+        console.log('parse err: ', error)
       }
     })
   }
