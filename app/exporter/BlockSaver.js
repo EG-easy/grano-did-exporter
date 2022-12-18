@@ -8,7 +8,7 @@ const Block = require('../../sequelize/models/Block')
  */
 class BlockSaver {
   /**
-   * save ipn
+   * saveBlock
    *
    * @param {BlockParam} param
    * @param {import('sequelize').CreateOptions} options

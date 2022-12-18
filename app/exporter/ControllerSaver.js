@@ -8,7 +8,7 @@ const Controller = require('../../sequelize/models/Controller')
  */
 class ControllerSaver {
   /**
-   * save ipn
+   * batchCreateControllers
    *
    * @param {Array<ControllerParam>} param
    * @param {import('sequelize').BulkCreateOptions} options
@@ -29,7 +29,7 @@ module.exports = ControllerSaver
 
 /**
  * @typedef {{
- * identifierId: Number,
+ * identifier: String,
  * version: Number,
  * controller: String,
  * }} ControllerParam

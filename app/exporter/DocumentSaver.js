@@ -8,7 +8,7 @@ const Document = require('../../sequelize/models/Document')
  */
 class DocumentSaver {
   /**
-   * save ipn
+   * batchCreateDocuments
    *
    * @param {Array<DocumentParam>} param
    * @param {import('sequelize').BulkCreateOptions} options
@@ -31,7 +31,7 @@ module.exports = DocumentSaver
 
 /**
  * @typedef {{
- * identifierId: Number,
+ * identifier: String,
  * version: Number,
  * content: String,
  * }} DocumentParam

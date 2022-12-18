@@ -10,12 +10,10 @@ const db = require('../../sequelize/models')
 
 const BlockSaver = require('./BlockSaver')
 const TransactionSaver = require('./TransactionSaver')
-const IdentifierSaver = require('./IdentifierSaver')
 const ChangeControllerMessageSaver = require('./ChangeControllerMessageSaver')
 
 const Block = require('../../sequelize/models/Block')
 
-const IdentifiersExtractor = require('./IdentifiersExtractor')
 const ChangeControllerMessagesExtractor = require('./ChangeControllerMessagesExtractor')
 
 /**
@@ -31,14 +29,12 @@ class Exporter {
     granoDidClient = GranoDidClient.create(),
     blockSaver = new BlockSaver(),
     transactionSaver = new TransactionSaver(),
-    identifierSaver = new IdentifierSaver(),
     changeControllerMessageSaver = new ChangeControllerMessageSaver(),
     contractAddress = process.env.CONTRACT_ADDRESS,
   } = {}) {
     this.granoDidClient = granoDidClient
     this.blockSaver = blockSaver
     this.transactionSaver = transactionSaver
-    this.identifierSaver = identifierSaver
     this.changeControllerMessageSaver = changeControllerMessageSaver
     this.contractAddress = contractAddress
   }
@@ -198,7 +194,6 @@ module.exports = Exporter
  *   granoDidClient?: import('@eg-easy/grano-did-client').GranoDidClient
  *   blockSaver?: BlockSaver
  *   transactionSaver?: TransactionSaver
- *   identifierSaver?: IdentifierSaver
  *   changeControllerMessageSaver?: ChangeControllerMessageSaver
  *   contractAddress?: String
  * }} ExporterParams
