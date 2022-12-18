@@ -19,19 +19,11 @@ entity transactions {
   updated_at: DATETIME
 }
 
-entity identifiers {
-  id: BIGINT <<PK>>
-  --
-  identifier: VARCHAR(191)
-  created_at: DATETIME
-  updated_at: DATETIME
-}
-
 entity change_controller_messages {
   id: BIGINT <<PK>>
   --
   transaction_id: BIGINT <<index>>
-  identifier_id: BIGINT <<index>>
+  identifier: VARCHAR(191) <<index>>
   new_controller: VARCHAR(191)
   created_at: DATETIME
   updated_at: DATETIME
@@ -41,7 +33,7 @@ entity set_attribute_messages {
   id: BIGINT <<PK>>
   --
   transaction_id: BIGINT <<index>>
-  identifier_id: BIGINT <<index>>
+  identifier: VARCHAR(191) <<index>>
   name: TEXT
   value: TEXT
   validity: BIGINT
@@ -53,7 +45,7 @@ entity revoke_attribute_messages {
   id: BIGINT <<PK>>
   --
   transaction_id: BIGINT <<index>>
-  identifier_id: BIGINT <<index>>
+  identifier: VARCHAR(191) <<index>>
   name: TEXT
   value: TEXT
   created_at: DATETIME
@@ -63,7 +55,7 @@ entity revoke_attribute_messages {
 entity controllers { 
   id: BIGINT <<PK>>
   --
-  identifier_id: BIGINT <<index>>
+  identifier: VARCHAR(191) <<index>>
   version: BIGINT
   controller: VARCHAR(191)
   created_at: DATETIME
@@ -73,7 +65,7 @@ entity controllers {
 entity documents {
   id: BIGINT <<PK>>
   --
-  identifier_id: BIGINT <<index>>
+  identifier: VARCHAR(191) <<index>>
   version: BIGINT
   content: TEXT
   created_at: DATETIME
@@ -84,12 +76,5 @@ blocks ||---o{ transactions
 transactions ||---o{ change_controller_messages
 transactions ||---o{ set_attribute_messages
 transactions ||---o{ revoke_attribute_messages
-
-identifiers ||---o{ change_controller_messages
-identifiers ||---o{ set_attribute_messages
-identifiers ||---o{ revoke_attribute_messages
-
-identifiers ||---o{ controllers
-identifiers ||---o{ documents
 
 @enduml
