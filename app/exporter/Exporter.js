@@ -11,10 +11,14 @@ const db = require('../../sequelize/models')
 const BlockSaver = require('./BlockSaver')
 const TransactionSaver = require('./TransactionSaver')
 const ChangeControllerMessageSaver = require('./ChangeControllerMessageSaver')
+const SetAttributeMessageSaver = require('./SetAttributeMessageSaver')
+const RevokeAttributeMessageSaver = require('./RevokeAttributeMessageSaver')
 
 const Block = require('../../sequelize/models/Block')
 
 const ChangeControllerMessagesExtractor = require('./ChangeControllerMessagesExtractor')
+const SetAttributeMessagesExtractor = require('./SetAttributeMessagesExtractor')
+const RevokeAttributeMessagesExtractor = require('./RevokeAttributeMessagesExtractor')
 
 /**
  * Exporter.
@@ -30,12 +34,16 @@ class Exporter {
     blockSaver = new BlockSaver(),
     transactionSaver = new TransactionSaver(),
     changeControllerMessageSaver = new ChangeControllerMessageSaver(),
+    setAttributeMessageSaver = new SetAttributeMessageSaver(),
+    revokeAttributeMessageSaver = new RevokeAttributeMessageSaver(),
     contractAddress = process.env.CONTRACT_ADDRESS,
   } = {}) {
     this.granoDidClient = granoDidClient
     this.blockSaver = blockSaver
     this.transactionSaver = transactionSaver
     this.changeControllerMessageSaver = changeControllerMessageSaver
+    this.setAttributeMessageSaver = setAttributeMessageSaver
+    this.revokeAttributeMessageSaver = revokeAttributeMessageSaver
     this.contractAddress = contractAddress
   }
 
@@ -76,9 +84,13 @@ class Exporter {
         }
 
         const extractChangeControllerMessages = ChangeControllerMessagesExtractor.create({ transactions: targetTransactions }).extractChangeControllerMessages()
-        const savedChangeControllerMessages = this.changeControllerMessageSaver.batchCreateChangeControllerMessages(extractChangeControllerMessages, { transaction: t })
+        await this.changeControllerMessageSaver.batchCreateChangeControllerMessages(extractChangeControllerMessages, { transaction: t })
 
-        console.log(extractChangeControllerMessages)
+        const extractSetAttributeMessages = SetAttributeMessagesExtractor.create({ transactions: targetTransactions }).extractSetAttributeMessages()
+        await this.setAttributeMessageSaver.batchCreateSetAttributeMessages(extractSetAttributeMessages, { transaction: t })
+
+        const extractRevokeAttributeMessages = RevokeAttributeMessagesExtractor.create({ transactions: targetTransactions }).extractRevokeAttributeMessages()
+        await this.revokeAttributeMessageSaver.batchCreateRevokeAttributeMessages(extractRevokeAttributeMessages, { transaction: t })
       })
     } catch (error) {
       throw new Error(`rollbacked: ${error}`)
@@ -195,6 +207,8 @@ module.exports = Exporter
  *   blockSaver?: BlockSaver
  *   transactionSaver?: TransactionSaver
  *   changeControllerMessageSaver?: ChangeControllerMessageSaver
+ *   setAttributeMessageSaver?: SetAttributeMessageSaver
+ *   revokeAttributeMessageSaver?: RevokeAttributeMessageSaver
  *   contractAddress?: String
  * }} ExporterParams
  */
