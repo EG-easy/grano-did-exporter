@@ -2,6 +2,7 @@
 'use strict'
 
 const { logs } = require('@cosmjs/stargate')
+const logger = require('pino')()
 
 /**
  * ChangeControllerMessagesExtractor.
@@ -63,7 +64,7 @@ class ChangeControllerMessagesExtractor {
 
         return transaction
       } catch (error) {
-        console.log('parse err: ', error)
+        logger.info(`parse error: ${error}`)
       }
     })
   }

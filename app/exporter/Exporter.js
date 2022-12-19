@@ -2,11 +2,12 @@
 'use strict'
 
 require('dotenv').config()
+const logger = require('pino')()
 
 const { logs } = require('@cosmjs/stargate')
 const { GranoDidClient } = require('@eg-easy/grano-did-client')
 
-const db = require('../../sequelize/models')
+require('../../sequelize/models')
 
 const BlockSaver = require('./BlockSaver')
 const TransactionSaver = require('./TransactionSaver')
@@ -193,7 +194,7 @@ class Exporter {
           return transaction
         }
       } catch (error) {
-        console.log('parse err: ', error)
+        logger.info(`parse error: ${error}`)
       }
     })
   }

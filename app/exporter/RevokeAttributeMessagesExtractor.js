@@ -2,6 +2,7 @@
 'use strict'
 
 const { logs } = require('@cosmjs/stargate')
+const logger = require('pino')()
 
 /**
  * RevokeAttributeMessagesExtractor.
@@ -66,7 +67,7 @@ class RevokeAttributeMessagesExtractor {
 
         return transaction
       } catch (error) {
-        console.log('parse err: ', error)
+        logger.info(`parse error: ${error}`)
       }
     })
   }
