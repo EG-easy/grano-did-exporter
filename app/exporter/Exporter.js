@@ -59,6 +59,29 @@ class Exporter {
   }
 
   /**
+   * process.
+   */
+  async process () {
+    const blockHeightFromNode = await this.fetchLatestBlockFromNode()
+    const blockHeightFromDataBase = await this.fetchLatestBlockFromDataBase()
+
+    if (blockHeightFromNode.header.height > blockHeightFromDataBase.height) {
+      this.sync(blockHeightFromDataBase.height + 1)
+    }
+  }
+
+  /**
+   * repeatProcess.
+   */
+  async repeatProcess () {
+    // eslint-disable-next-line
+    while (true) {
+      // eslint-disable-next-line
+      await this.process()
+    }
+  }
+
+  /**
    * sync.
    *
    * @param {Number} height
@@ -99,20 +122,6 @@ class Exporter {
   }
 
   /**
-   * fetchLatestBlockFromNode.
-   *
-   * @returns {Promise<import('@cosmjs/stargate').Block>} block
-   * @throws
-   */
-  async fetchLatestBlockFromNode () {
-    try {
-      return this.granoDidClient.client.getBlock()
-    } catch (error) {
-      throw new Error(`Not found block: ${error}`)
-    }
-  }
-
-  /**
    * fetchBlockbyBlockHeight.
    *
    * @param {Number} height
@@ -125,6 +134,27 @@ class Exporter {
     } catch (error) {
       throw new Error(`Not found block: ${error}`)
     }
+  }
+
+  /**
+   * fetchLatestBlockFromNode.
+   *
+   * @returns {Promise<import('@cosmjs/stargate').Block>} block
+   * @throws
+   */
+  async fetchLatestBlockFromNode () {
+    return this.fetchBlockbyBlockHeight(null)
+  }
+
+  /**
+   * fetchLatestBlockFromDataBase.
+   *
+   * @returns {Promise<Block>} block
+   */
+  async fetchLatestBlockFromDataBase () {
+    return Block.findOne({
+      order: [['id', 'DESC']],
+    })
   }
 
   /**
