@@ -21,8 +21,8 @@ class Controller extends BaseModel {
         primaryKey: true,
         autoIncrement: true,
       },
-      identifierId: {
-        type: DataTypes.BIGINT,
+      identifier: {
+        type: DataTypes.STRING(191),
         allowNull: false,
       },
       version: {

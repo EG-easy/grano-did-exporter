@@ -3,7 +3,7 @@
 const TABLE_NAME = 'set_attribute_messages'
 const COLUMN_NAME = {
   TRANSACTION_ID: 'transaction_id',
-  IDENTIFIER_ID: 'identifier_id',
+  IDENTIFIER: 'identifier',
   NAME: 'name',
   VALUE: 'value',
   VALIDITY: 'validity',
@@ -28,9 +28,9 @@ module.exports = {
         field: COLUMN_NAME.TRANSACTION_ID,
         allowNull: false,
       },
-      identifierId: {
-        type: Sequelize.BIGINT,
-        field: COLUMN_NAME.IDENTIFIER_ID,
+      identifier: {
+        type: Sequelize.STRING(191),
+        field: COLUMN_NAME.IDENTIFIER,
         allowNull: false,
       },
       name: {
@@ -71,11 +71,11 @@ module.exports = {
         ].join('_'),
       }),
       queryInterface.addIndex(TABLE_NAME, [
-        COLUMN_NAME.IDENTIFIER_ID,
+        COLUMN_NAME.IDENTIFIER,
       ], {
         name: [
           TABLE_NAME,
-          COLUMN_NAME.IDENTIFIER_ID,
+          COLUMN_NAME.IDENTIFIER,
           'index',
         ].join('_'),
       }),
