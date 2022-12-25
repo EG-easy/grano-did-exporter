@@ -22,13 +22,13 @@ const SetAttributeMessagesExtractor = require('./SetAttributeMessagesExtractor')
 const RevokeAttributeMessagesExtractor = require('./RevokeAttributeMessagesExtractor')
 
 /**
- * Exporter.
+ * GranoDidExporter.
  */
-class Exporter {
+class GranoDidExporter {
   /**
    * constructor.
    *
-   * @param {ExporterParams} params - exporter params
+   * @param {GranoDidExporterParams} params - exporter params
    */
   constructor ({
     granoDidClient = GranoDidClient.create(),
@@ -51,8 +51,8 @@ class Exporter {
   /**
    * create.
    *
-   * @param {ExporterParams} params - exporter params
-   * @returns {Exporter}
+   * @param {GranoDidExporterParams} params - exporter params
+   * @returns {GranoDidExporter}
    */
   static create (params = {}) {
     return new this(params)
@@ -230,7 +230,7 @@ class Exporter {
   }
 }
 
-module.exports = Exporter
+module.exports = GranoDidExporter
 
 /**
  * @typedef {{
@@ -241,5 +241,5 @@ module.exports = Exporter
  *   setAttributeMessageSaver?: SetAttributeMessageSaver
  *   revokeAttributeMessageSaver?: RevokeAttributeMessageSaver
  *   contractAddress?: String
- * }} ExporterParams
+ * }} GranoDidExporterParams
  */
