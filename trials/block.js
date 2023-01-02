@@ -1,5 +1,5 @@
-const db = require('../sequelize/models')
-const Block = require('../sequelize/models/Block')
+const db = require('../src/sequelize/models')
+const Block = require('../src/sequelize/models/Block')
 
 console.log('models >>>: ', db.sequelize.models)
 
