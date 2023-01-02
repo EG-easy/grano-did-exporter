@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "applications for grano did node",
   "files": [
-    "lib/",
+    "src/",
     "README.md",
     "LICENSE",
     "package.json"
