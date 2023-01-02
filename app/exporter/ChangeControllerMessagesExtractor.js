@@ -59,6 +59,12 @@ class ChangeControllerMessagesExtractor {
     return this.transactions.filter( transaction => {
       try {
         const log = logs.parseRawLog(transaction.rawLog)
+
+        const executeMsgObject = logs.findAttribute(log, 'wasm', 'executeMsg')
+        if (executeMsgObject.value !== 'changeController') {
+          throw new Error('This is not changeController message')
+        }
+
         logs.findAttribute(log, 'wasm', 'identifier')
         logs.findAttribute(log, 'wasm', 'controller')
 
