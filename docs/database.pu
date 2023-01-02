@@ -3,7 +3,8 @@
 entity blocks {
   id: BIGINT <<PK>>
   --
-  block_number: BIGINT
+  height: BIGINT
+  time: DATETIME
   created_at: DATETIME
   updated_at: DATETIME
 }
@@ -12,17 +13,8 @@ entity transactions {
   id: BIGINT <<PK>>
   --
   block_id: BIGINT <<index>>
-  transaction_hash: VARCHAR(191)
-  from_address: VARCHAR(191)
+  hash: VARCHAR(191)
   raw_log: TEXT
-  created_at: DATETIME
-  updated_at: DATETIME
-}
-
-entity method_specific_strings {
-  id: BIGINT <<PK>>
-  --
-  address: VARCHAR(191)
   created_at: DATETIME
   updated_at: DATETIME
 }
@@ -31,8 +23,7 @@ entity change_controller_messages {
   id: BIGINT <<PK>>
   --
   transaction_id: BIGINT <<index>>
-  method_specific_string_id: BIGINT <<index>>
-  old_controller: VARCHAR(191)
+  identifier: VARCHAR(191) <<index>>
   new_controller: VARCHAR(191)
   created_at: DATETIME
   updated_at: DATETIME
@@ -42,9 +33,10 @@ entity set_attribute_messages {
   id: BIGINT <<PK>>
   --
   transaction_id: BIGINT <<index>>
-  method_specific_string_id: BIGINT <<index>>
-  key: TEXT
+  identifier: VARCHAR(191) <<index>>
+  name: TEXT
   value: TEXT
+  validity: BIGINT
   created_at: DATETIME
   updated_at: DATETIME
 }
@@ -53,38 +45,29 @@ entity revoke_attribute_messages {
   id: BIGINT <<PK>>
   --
   transaction_id: BIGINT <<index>>
-  method_specific_string_id: BIGINT <<index>>
-  created_at: DATETIME
-  updated_at: DATETIME
-}
-
-entity controllers { 
-  id: INTEGER <<PK>>
-  --
-  method_specific_string_id: BIGINT <<index>>
-  version: TINYINT <<index>>
-  address: VARCHAR(191)
-  created_at: DATETIME
-  updated_at: DATETIME
-}
-
-entity attributes {
-  id: BIGINT <<PK>>
-  --
-  method_specific_string_id: BIGINT <<index>>
-  version: TINYINT <<index>>
-  key: TEXT
+  identifier: VARCHAR(191) <<index>>
+  name: TEXT
   value: TEXT
   created_at: DATETIME
   updated_at: DATETIME
 }
 
-entity attribute_validities {
+entity controllers { 
   id: BIGINT <<PK>>
   --
-  attribute_id: BIGINT <<index>>
-  version_id: BIGINT <<index>>
-  valid_to: DATETIME
+  identifier: VARCHAR(191) <<index>>
+  version: BIGINT
+  controller: VARCHAR(191)
+  created_at: DATETIME
+  updated_at: DATETIME
+}
+
+entity documents {
+  id: BIGINT <<PK>>
+  --
+  identifier: VARCHAR(191) <<index>>
+  version: BIGINT
+  content: TEXT
   created_at: DATETIME
   updated_at: DATETIME
 }
@@ -93,13 +76,5 @@ blocks ||---o{ transactions
 transactions ||---o{ change_controller_messages
 transactions ||---o{ set_attribute_messages
 transactions ||---o{ revoke_attribute_messages
-
-method_specific_strings ||---o{ change_controller_messages
-method_specific_strings ||---o{ set_attribute_messages
-method_specific_strings ||---o{ revoke_attribute_messages
-
-method_specific_strings ||---o{ controllers
-method_specific_strings ||---o{ attributes
-attributes ||---o{ attribute_validities
 
 @enduml
