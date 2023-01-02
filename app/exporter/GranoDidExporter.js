@@ -14,6 +14,8 @@ const TransactionSaver = require('./TransactionSaver')
 const ChangeControllerMessageSaver = require('./ChangeControllerMessageSaver')
 const SetAttributeMessageSaver = require('./SetAttributeMessageSaver')
 const RevokeAttributeMessageSaver = require('./RevokeAttributeMessageSaver')
+const ControllerSaver = require('./ControllerSaver')
+const DocumentSaver = require('./DocumentSaver')
 
 const Block = require('../../sequelize/models/Block')
 
@@ -37,6 +39,8 @@ class GranoDidExporter {
     changeControllerMessageSaver = new ChangeControllerMessageSaver(),
     setAttributeMessageSaver = new SetAttributeMessageSaver(),
     revokeAttributeMessageSaver = new RevokeAttributeMessageSaver(),
+    controllerSaver = new ControllerSaver(),
+    documentSaver = new DocumentSaver(),
     contractAddress = process.env.CONTRACT_ADDRESS,
   } = {}) {
     this.granoDidClient = granoDidClient
@@ -45,6 +49,8 @@ class GranoDidExporter {
     this.changeControllerMessageSaver = changeControllerMessageSaver
     this.setAttributeMessageSaver = setAttributeMessageSaver
     this.revokeAttributeMessageSaver = revokeAttributeMessageSaver
+    this.controllerSaver = controllerSaver
+    this.documentSaver = documentSaver
     this.contractAddress = contractAddress
   }
 
@@ -108,13 +114,26 @@ class GranoDidExporter {
         }
 
         const extractChangeControllerMessages = ChangeControllerMessagesExtractor.create({ transactions: targetTransactions }).extractChangeControllerMessages()
-        await this.changeControllerMessageSaver.batchCreateChangeControllerMessages(extractChangeControllerMessages, { transaction: t })
+        if (extractChangeControllerMessages.length > 0) {
+          await this.changeControllerMessageSaver.batchCreateChangeControllerMessages(extractChangeControllerMessages, { transaction: t })
+
+          // TODO: update to save all controller changes
+          await this.controllerSaver.processSaveController(extractChangeControllerMessages[0], { transaction: t })
+        }
 
         const extractSetAttributeMessages = SetAttributeMessagesExtractor.create({ transactions: targetTransactions }).extractSetAttributeMessages()
-        await this.setAttributeMessageSaver.batchCreateSetAttributeMessages(extractSetAttributeMessages, { transaction: t })
+        if (extractSetAttributeMessages.length > 0) {
+          await this.setAttributeMessageSaver.batchCreateSetAttributeMessages(extractSetAttributeMessages, { transaction: t })
+
+          await this.documentSaver.processSetAttributeMessageToSaveDocument(extractSetAttributeMessages[0], { transaction: t })
+        }
 
         const extractRevokeAttributeMessages = RevokeAttributeMessagesExtractor.create({ transactions: targetTransactions }).extractRevokeAttributeMessages()
-        await this.revokeAttributeMessageSaver.batchCreateRevokeAttributeMessages(extractRevokeAttributeMessages, { transaction: t })
+        if (extractRevokeAttributeMessages.length > 0) {
+          await this.revokeAttributeMessageSaver.batchCreateRevokeAttributeMessages(extractRevokeAttributeMessages, { transaction: t })
+
+          await this.documentSaver.processRevokeAttributeMessageToSaveDocument(extractSetAttributeMessages[0], { transaction: t })
+        }
       })
     } catch (error) {
       throw new Error(`rollbacked: ${error}`)
@@ -240,6 +259,8 @@ module.exports = GranoDidExporter
  *   changeControllerMessageSaver?: ChangeControllerMessageSaver
  *   setAttributeMessageSaver?: SetAttributeMessageSaver
  *   revokeAttributeMessageSaver?: RevokeAttributeMessageSaver
+ *   controllerSaver?: ControllerSaver
+ *   documentSaver?: DocumentSaver
  *   contractAddress?: String
  * }} GranoDidExporterParams
  */
