@@ -61,6 +61,12 @@ class RevokeAttributeMessagesExtractor {
     return this.transactions.filter( transaction => {
       try {
         const log = logs.parseRawLog(transaction.rawLog)
+
+        const executeMsgObject = logs.findAttribute(log, 'wasm', 'executeMsg')
+        if (executeMsgObject.value !== 'revokeAttribute') {
+          throw new Error('This is not revokeAttribute message')
+        }
+
         logs.findAttribute(log, 'wasm', 'identifier')
         logs.findAttribute(log, 'wasm', 'name')
         logs.findAttribute(log, 'wasm', 'value')
