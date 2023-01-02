@@ -18,6 +18,8 @@ jobs:
           # Defaults to the user or organization that owns the workflow file
           scope: '@eg-easy'
       - run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.TO_REPO_OF_GRANO_DID_CLIENT }}
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
