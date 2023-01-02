@@ -1,7 +1,13 @@
 {
-  "name": "grano-did-app",
+  "name": "@eg-easy/grano-did-app",
   "version": "0.0.0",
   "description": "applications for grano did node",
+  "files": [
+    "lib/",
+    "README.md",
+    "LICENSE",
+    "package.json"
+  ],
   "main": "index.js",
   "directories": {
     "doc": "docs"
