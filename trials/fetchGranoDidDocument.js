@@ -1,7 +1,7 @@
 // @ts-check
 'use strict'
 
-const DatabaseClient = require('../app/client/DatabaseClient')
+const DatabaseClient = require('../src/app/client/DatabaseClient')
 
 const main = async () => {
   const databaseClient = new DatabaseClient()

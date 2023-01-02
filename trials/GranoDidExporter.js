@@ -3,7 +3,7 @@
 
 const { GranoDidClient } = require('@eg-easy/grano-did-client')
 
-const GranoDidExporter = require('../app/exporter/GranoDidExporter')
+const GranoDidExporter = require('../src/app/exporter/GranoDidExporter')
 
 const main = async () => {
   const granoDidClient = await GranoDidClient.createFulfilled()
