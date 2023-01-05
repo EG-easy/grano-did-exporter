@@ -131,7 +131,7 @@ class GranoDidExporter {
         if (extractRevokeAttributeMessages.length > 0) {
           await this.revokeAttributeMessageSaver.batchCreateRevokeAttributeMessages(extractRevokeAttributeMessages, { transaction: t })
 
-          await this.documentSaver.processRevokeAttributeMessageToSaveDocument(extractSetAttributeMessages[0], { transaction: t })
+          await this.documentSaver.processRevokeAttributeMessageToSaveDocument(extractRevokeAttributeMessages[0], { transaction: t })
         }
       })
     } catch (error) {
