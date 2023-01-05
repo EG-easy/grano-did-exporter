@@ -1,4 +1,5 @@
-# did-evnet-exporter
+# Grano DID Exporter
+Grano DID Exporter is a program that retrieves events occurring on [grano-did-contract](https://github.com/eg-easy/grano-did-contract) and stores them in an off-chain database like MariaDB. It depends on [grano-did-client](https://github.com/EG-easy/grano-did-client) to interact with the did contract and [Sequelize](https://github.com/sequelize/sequelize) to save data in the database.
 
 ## How to Use
 
