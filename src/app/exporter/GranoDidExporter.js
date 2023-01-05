@@ -5,7 +5,6 @@ require('dotenv').config()
 const logger = require('pino')()
 
 const { logs } = require('@cosmjs/stargate')
-const { GranoDidClient } = require('@eg-easy/grano-did-client')
 
 require('../../sequelize/models')
 
@@ -33,7 +32,7 @@ class GranoDidExporter {
    * @param {GranoDidExporterParams} params - exporter params
    */
   constructor ({
-    granoDidClient = GranoDidClient.create(),
+    granoDidClient,
     blockSaver = new BlockSaver(),
     transactionSaver = new TransactionSaver(),
     changeControllerMessageSaver = new ChangeControllerMessageSaver(),
