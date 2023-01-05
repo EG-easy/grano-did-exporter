@@ -19,7 +19,7 @@ module.exports = {
         field: 'id',
         type: Sequelize.BIGINT,
         allowNull: false,
-        autoInclement: true,
+        autoIncrement: true,
         primaryKey: true,
       },
       transactionId: {
