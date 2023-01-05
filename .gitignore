@@ -2,5 +2,5 @@
 .env
 node_modules
 
-sequelize/storage
+src/sequelize/storage
 out
