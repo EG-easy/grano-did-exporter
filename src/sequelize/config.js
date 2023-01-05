@@ -11,12 +11,12 @@ module.exports = {
     logging: false,
   },
   production: {
-    database: 'production_database',
-    username: 'admin-production',
-    password: 'production-password',
+    database: process.env.DATABASE,
+    username: process.env.USERNAME,
+    password: process.env.PASSWORD,
 
-    dialect: 'mysql',
-    host: 'http://pruduction.sample.com',
-    port: 3306,
-  }
+    dialect: process.env.DIALECT,
+    host: process.env.HOST,
+    port: process.env.PORT,
+  },
 }
